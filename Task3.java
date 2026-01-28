@@ -1,33 +1,41 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.toList;
 
-class BinarySearch {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+class Result {
+    public static void miniMaxSum(List<Integer> arr) {
+        long minSum = Long.MAX_VALUE;
+        long maxSum = Long.MIN_VALUE;
 
-        int n = sc.nextInt();
-        int[] arr = new int[n];
+        for (int i = 0; i < arr.size(); i++) {
+            long currentSum = 0;
 
-        for (int i = 0; i < n; i++)
-            arr[i] = sc.nextInt();
+            for (int j = 0; j < arr.size(); j++) {
+                if (i != j) {
+                    currentSum += arr.get(j);
+                }
+            }
 
-        int key = sc.nextInt();
-        int low = 0, high = n - 1;
-        int pos = -1;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-
-            if (arr[mid] == key) {
-                pos = mid;
-                break;
-            } else if (arr[mid] < key)
-                low = mid + 1;
-            else
-                high = mid - 1;
+            minSum = Math.min(minSum, currentSum);
+            maxSum = Math.max(maxSum, currentSum);
         }
+        System.out.println(minSum + " " + maxSum);
+    }
 
-        System.out.println(pos);
 
-        sc.close();
+}
+
+class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        List<Integer> arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        Result.miniMaxSum(arr);
+
+        bufferedReader.close();
     }
 }
