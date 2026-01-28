@@ -1,24 +1,55 @@
-import java.util.*;
 import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
-class UserMainCode {
-    public int evenOddDigitsSum(int input1, String input2) {
-        int sum = 0;
+class Result {
+    public static String findDay(int month, int day, int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month - 1, day);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
-        while (input1 > 0) {
-            int digit = input1 % 10;
+        String[] days = {
+            "SUNDAY",
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY"
+        };
 
-            if (input2.equalsIgnoreCase("even") && digit % 2 == 0) {
-                sum += digit;
-            } 
-            else if (input2.equalsIgnoreCase("odd") && digit % 2 != 0) {
-                sum += digit;
-            }
-
-            input1 = input1 / 10;
-        }
-
-        return sum;
+        return days[dayOfWeek - 1];
     }
+
 }
 
+class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int month = Integer.parseInt(firstMultipleInput[0]);
+
+        int day = Integer.parseInt(firstMultipleInput[1]);
+
+        int year = Integer.parseInt(firstMultipleInput[2]);
+
+        String res = Result.findDay(month, day, year);
+
+        bufferedWriter.write(res);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
